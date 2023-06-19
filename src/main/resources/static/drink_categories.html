@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel</title>
+
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+
+  <style>
+    .form-container {
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      padding: 20px;
+      margin-top: 20px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .text-center {
+      text-align: center;
+    }
+    .mx-auto {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .table tr,
+    .table th,
+    .table td {
+      border: 1px solid #dcdde0;
+      padding: 8px;
+      margin: 0;
+      text-align: center;
+      background-color: #fff;
+    }
+    .table th {
+      background-color: #f2f2f2;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+    .navbar-nav .logout-link {
+      border: 2px solid #093c72;
+      background-color: #093c72;
+      font-size: large;
+      font-weight: bold;
+      color: rgba(164, 96, 96, 0);
+      margin-top: 4px;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .scrollable-table {
+      max-height: 250px;
+      overflow-y: scroll;
+    }
+  </style>
+</head>
+<body class="bg-info bg-gradient">
+<!-- create navigation bar (header) -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed"
+              data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+              aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span> <span
+              class="icon-bar"></span> <span class="icon-bar"></span> <span
+              class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#" th:href="@{/static}">Admin Panel</a>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li sec:authorize="isAuthenticated()">
+          <a class="logout-link" th:href="@{/logout}">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<br>
+<br>
+
+<div class="container">
+  <div class="form-container text-center">
+    <h1>Admin Panel</h1>
+  </div>
+
+  <div class="form-container text-center">
+    <h2>Drink Categories</h2>
+    <div th:if="${param.deleteSuccess}" class="alert alert-success" id="successMessage1">
+      Drink category deleted successfully.
+    </div>
+    <div th:if="${param.deleteError}" class="alert alert-danger" id="errorMessage1">
+      Failed to delete drink category.
+    </div>
+    <div class="scrollable-table">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Iterate over the list of drink categories and display their information -->
+        <tr th:each="drinkCategory : ${drinkCategories}">
+          <td th:text="${drinkCategory.id}" style="vertical-align: middle;"></td>
+          <td th:text="${drinkCategory.name}" style="vertical-align: middle;"></td>
+          <td style="vertical-align: middle;">
+            <a class="btn btn-primary" th:href="@{/drinks/edit_drink_category_admin/{id}(id=${drinkCategory.id})}" style="width: 100px;">Edit</a>
+            <a class="btn btn-danger" th:href="@{/drinks/delete/{id}(id=${drinkCategory.id})}" onclick="return confirmDelete(event)" style="width: 100px;">Delete</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="form-container text-center">
+    <a class="btn btn-primary" th:href="@{/drink_categories/add_drink_category_admin}">Add New Drink Category</a>
+  </div>
+  <div class="form-container text-center">
+    <a class="btn btn-primary" th:href="@{/static}">Back to Admin Panel</a>
+  </div>
+  <div class="text-center">
+    <img src="/img/l4.png">
+  </div>
+</div>
+<script>
+  function confirmDelete(event) {
+    if (!confirm("Are you sure you want to delete this user?")) {
+      event.preventDefault(); // Ακύρωση της προεπιλεγμένης ενέργειας του συνδέσμου
+      return false;
+    }
+    return true;
+  }
+
+
+  // Αυτόματη απόκρυψη του μηνύματος επιτυχίας/αποτυχίας μετά από 5 δευτερόλεπτα
+  setTimeout(function() {
+    var successMessage = document.getElementById('successMessage1');
+    var errorMessage = document.getElementById('errorMessage1');
+
+    if (successMessage) {
+      successMessage.style.display = 'none';
+    }
+
+    if (errorMessage) {
+      errorMessage.style.display = 'none';
+    }
+  }, 2000);
+</script>
+
+</body>
+</html>
