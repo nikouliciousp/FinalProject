@@ -5,8 +5,8 @@ package gr.aueb.cf.finalproject.dto;
  */
 public class DrinkCategoryDto {
 
-    private Long id; // The ID of the drink category.
-    private String name; // The name of the drink category.
+    private Long id;        // The ID of the drink category.
+    private String name;    // The name of the drink category.
 
     public DrinkCategoryDto() {
     }
