@@ -5,7 +5,7 @@
 </div>
 <div align="center">
   <p>
-  Final Project
+  Nik Peris
   </p>
 </div>
 <div align="center">
