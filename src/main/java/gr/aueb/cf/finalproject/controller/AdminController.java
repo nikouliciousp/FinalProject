@@ -379,5 +379,51 @@ public class AdminController {
             return "redirect:/index_admin/all_drinks_admin/" + drinkCategory.getId() + "?deleteError";
         }
     }
+
+    /**
+     * Handles the GET request for displaying the form to edit a drink by the admin.
+     * Fetches the drink by ID and passes it to the view.
+     * @param id The ID of the drink to be edited.
+     * @param model The model object to be populated with data for the view.
+     * @return The edit drink form view.
+     */
+    @GetMapping("/edit_drink_admin/{id}")
+    public String showEditDrinkForm(@PathVariable("id") Long id, Model model) {
+        Drink drink = drinkService.getDrinkById(id);
+        if (drink != null) {
+            model.addAttribute("drink", drink);
+            return "edit_drink_admin";
+        } else {
+            return "redirect:/index_admin";
+        }
+    }
+
+    /**
+     * Handles the POST request for updating a drink by the admin.
+     * Validates the drink input, checks if another drink with the same name already exists,
+     * and updates the drink.
+     * @param id The ID of the drink to be updated.
+     * @param drinkDto The DTO object containing the updated drink data.
+     * @param result The binding result object for validation errors.
+     * @param model The model object to be populated with data for the view.
+     * @return The redirection URL based on the success or failure of the drink update.
+     */
+    @PostMapping("/edit_drink_admin/{id}")
+    public String updateDrink(@PathVariable("id") Long id, @ModelAttribute("drink") @Valid DrinkDto drinkDto,
+                                      BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "redirect:/index_admin/edit_drink_admin/" + id + "?categoryExists";
+        }
+
+        Drink existingDrink = drinkService.getDrinkById(drinkDto.getId());
+        if (existingDrink != null && !existingDrink.getId().equals(id)) {
+            model.addAttribute("categoryExists", true);
+            return "redirect:/index_admin/edit_drink_admin/" + id + "?categoryExists";
+        }
+
+        drinkService.updateDrink(drinkDto);
+        model.addAttribute("success", true);
+        return "redirect:/index_admin/edit_drink_admin/" + id + "?success";
+    }
 }
 

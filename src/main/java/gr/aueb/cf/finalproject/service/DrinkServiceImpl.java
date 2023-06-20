@@ -42,7 +42,11 @@ public class DrinkServiceImpl implements DrinkService {
     }
 
     @Override
-    public Drink updateDrink(Drink drink) {
+    public Drink updateDrink(DrinkDto drinkDto) {
+        Drink drink = drinkRepository.findById(drinkDto.getId())
+                .orElseThrow (() -> new IllegalArgumentException("Invalid drink Id: " + drinkDto.getId()));
+
+        drink.setName(drinkDto.getName());
         return drinkRepository.save(drink);
     }
 

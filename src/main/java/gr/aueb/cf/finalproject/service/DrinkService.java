@@ -36,7 +36,7 @@ public interface DrinkService {
      * @param drink The drink to be updated.
      * @return The updated drink.
      */
-    Drink updateDrink(Drink drink);
+    Drink updateDrink(DrinkDto drinkDto);
 
     /**
      * Deletes a drink.

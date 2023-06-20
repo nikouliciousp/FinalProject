@@ -8,6 +8,8 @@
         href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
         crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
   <style>
     .form-container {
@@ -99,6 +101,11 @@
   <div class="text-center">
     <div class="form-container">
       <h2>All Drinks</h2>
+      <div class="form-group">
+        <input type="text" class="form-control" id="searchInput" placeholder="Search..." onkeydown="handleSearch(event)">
+      </div>
+
+
       <div th:if="${param.deleteSuccess}" class="alert alert-success" id="successMessage1">
         Drink deleted successfully.
       </div>
@@ -106,7 +113,7 @@
         Failed to delete drink.
       </div>
       <div class="scrollable-table">
-        <table class="table">
+        <table class="table" id="drinkTable">
           <thead>
           <tr>
             <th>ID</th>
@@ -149,6 +156,33 @@
           </tr>
           </tfoot>
         </table>
+        <div id="searchModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="searchModalLabel">Search Results</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <table class="table">
+                  <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                  </tr>
+                  </thead>
+                  <tbody id="searchResults">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
     <div class="form-container">
@@ -219,6 +253,50 @@
     link.href = window.URL.createObjectURL(blob);
     link.download = 'δεδομένα.xlsx';
     link.click();
+  }
+</script>
+<script>
+  function searchTable() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("searchInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("drinkTable");
+    tr = table.getElementsByTagName("tr");
+
+    var results = [];
+
+    // Ελέγχουμε κάθε γραμμή του πίνακα
+    for (i = 0; i < tr.length; i++) {
+      var row = tr[i];
+      td = row.getElementsByTagName("td");
+
+      // Ελέγχουμε κάθε κελί της γραμμής για την αναζήτηση
+      for (var j = 0; j < td.length; j++) {
+        var cell = td[j];
+        if (cell) {
+          txtValue = cell.textContent || cell.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            results.push(row.outerHTML);
+            break; // Βγαίνουμε από τον εσωτερικό βρόχο για να μην προστεθεί η ίδια γραμμή πολλές φορές
+          }
+        }
+      }
+    }
+
+    // Εμφανίζουμε τα αποτελέσματα στο pop-up παράθυρο
+    var searchResults = document.getElementById("searchResults");
+    searchResults.innerHTML = results.join("");
+
+    // Ανοίγουμε το pop-up παράθυρο
+    $('#searchModal').modal('show');
+  }
+</script>
+<script>
+  function handleSearch(event) {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      searchTable();
+    }
   }
 </script>
 
