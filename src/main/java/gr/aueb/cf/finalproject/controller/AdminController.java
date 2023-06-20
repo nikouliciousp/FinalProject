@@ -412,13 +412,13 @@ public class AdminController {
     public String updateDrink(@PathVariable("id") Long id, @ModelAttribute("drink") @Valid DrinkDto drinkDto,
                                       BindingResult result, Model model) {
         if (result.hasErrors()) {
-            return "redirect:/index_admin/edit_drink_admin/" + id + "?categoryExists";
+            return "redirect:/index_admin/edit_drink_admin/" + id + "?drinkExists";
         }
 
-        Drink existingDrink = drinkService.getDrinkById(drinkDto.getId());
+        Drink existingDrink = drinkService.getDrinkByName(drinkDto.getName());
         if (existingDrink != null && !existingDrink.getId().equals(id)) {
-            model.addAttribute("categoryExists", true);
-            return "redirect:/index_admin/edit_drink_admin/" + id + "?categoryExists";
+            model.addAttribute("drinkExists", true);
+            return "redirect:/index_admin/edit_drink_admin/" + id + "?drinkExists";
         }
 
         drinkService.updateDrink(drinkDto);

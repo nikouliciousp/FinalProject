@@ -69,4 +69,9 @@ public class DrinkServiceImpl implements DrinkService {
         Drink drink = drinkRepository.findByName(name);
         return drink != null;
     }
+
+    @Override
+    public Drink getDrinkByName(String name) {
+        return drinkRepository.findByName(name);
+    }
 }

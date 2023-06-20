@@ -60,4 +60,12 @@ public interface DrinkService {
      * @return True if a drink with the specified name exists, False otherwise.
      */
     boolean isDrinkExists(String name);
+
+    /**
+     * Retrieves a drink by its name.
+     *
+     * @param name The name of the drink.
+     * @return The drink with the specified name, or {@code null} if no such drink exists.
+     */
+    public Drink getDrinkByName(String name);
 }
