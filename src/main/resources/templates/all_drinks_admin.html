@@ -65,6 +65,17 @@
       max-height: 250px;
       overflow-y: scroll;
     }
+    .form-group {
+      position: relative;
+    }
+
+    .form-group .text-center {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body class="bg-info bg-gradient">
@@ -103,6 +114,9 @@
       <h2>All Drinks</h2>
       <div class="form-group">
         <input type="text" class="form-control" id="searchInput" placeholder="Search..." onkeydown="handleSearch(event)">
+      </div>
+      <div class="form-group text-left">
+        <button class="btn btn-success" onclick="exportToExcel()">Export to Excel</button>
       </div>
 
 
@@ -148,13 +162,13 @@
           </tr>
           </tbody>
           <!-- Add button for exporting to Excel -->
-          <tfoot>
-          <tr>
-            <td colspan="4" style="text-align: center;">
-              <button class="btn btn-success" onclick="exportToExcel()">Export to Excel</button>
-            </td>
-          </tr>
-          </tfoot>
+<!--          <tfoot>-->
+<!--          <tr>-->
+<!--            <td colspan="4" style="text-align: center;">-->
+<!--              <button class="btn btn-success" onclick="exportToExcel()">Export to Excel</button>-->
+<!--            </td>-->
+<!--          </tr>-->
+<!--          </tfoot>-->
         </table>
         <div id="searchModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg">
