@@ -2,15 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Panel</title>
-
+  <title>All Drinks</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
         crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
   <style>
     .form-container {
       border: 1px solid #ccc;
@@ -65,17 +64,6 @@
       max-height: 250px;
       overflow-y: scroll;
     }
-    .form-group {
-      position: relative;
-    }
-
-    .form-group .text-center {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      margin-top: 10px;
-    }
   </style>
 </head>
 <body class="bg-info bg-gradient">
@@ -101,10 +89,8 @@
     </div>
   </div>
 </nav>
-
 <br>
 <br>
-
 <div class="container">
   <div class="form-container text-center" style="background-color: #093c72; color: white; font-weight: bold;">
     <h4><span th:text="${drinkCategory.name}">Drink Category</span></h4>
@@ -118,15 +104,13 @@
       <div class="form-group text-left">
         <button class="btn btn-success" onclick="exportToExcel()">Export to Excel</button>
       </div>
-
-
       <div th:if="${param.deleteSuccess}" class="alert alert-success" id="successMessage1">
         Drink deleted successfully.
       </div>
       <div th:if="${param.deleteError}" class="alert alert-danger" id="errorMessage1">
         Failed to delete drink.
       </div>
-      <div class="scrollable-table">
+      <div class="scrollable-table table-responsive">
         <table class="table" id="drinkTable">
           <thead>
           <tr>
@@ -136,19 +120,6 @@
             <th>Action</th>
           </tr>
           </thead>
-<!--          <tbody>-->
-<!--          &lt;!&ndash; Iterate over the list of users and display their information &ndash;&gt;-->
-<!--          <tr th:each="drink : ${drinks}">-->
-<!--            <td th:text="${drink.id}" style="vertical-align: middle;"></td>-->
-<!--            <td th:text="${drink.name}" style="vertical-align: middle;"></td>-->
-<!--            <td th:text="${drink.price}" style="vertical-align: middle;"></td>-->
-<!--            <td style="vertical-align: middle;">-->
-<!--              <a class="btn btn-primary" th:href="@{/index_admin/edit_drink_admin/{id}(id=${drink.id})}" style="width: 100px;">Edit</a>-->
-<!--              <a class="btn btn-danger" th:href="@{/index_admin/delete_drink_admin/{id}(id=${drink.id},categoryName=${drinkCategory.name})}" onclick="return confirmDelete1(event)" style="width: 100px;">Delete</a>-->
-
-<!--            </td>-->
-<!--          </tr>-->
-<!--          </tbody>-->
           <tbody>
           <!-- Iterate over the list of users and display their information -->
           <tr th:each="drink : ${drinks}">
@@ -161,14 +132,6 @@
             </td>
           </tr>
           </tbody>
-          <!-- Add button for exporting to Excel -->
-<!--          <tfoot>-->
-<!--          <tr>-->
-<!--            <td colspan="4" style="text-align: center;">-->
-<!--              <button class="btn btn-success" onclick="exportToExcel()">Export to Excel</button>-->
-<!--            </td>-->
-<!--          </tr>-->
-<!--          </tfoot>-->
         </table>
         <div id="searchModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg">
@@ -196,7 +159,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
     <div class="form-container">
@@ -205,14 +167,11 @@
     <div class="form-container text-center">
       <a class="btn btn-primary" th:href="@{/}">Back to Admin Panel</a>
     </div>
-<!--    <div class="text-center">-->
-<!--      <img src="/img/l4.png">-->
-<!--    </div>-->
   </div>
 </div>
 <script>
   function confirmDelete1(event) {
-    if (!confirm("Are you sure you want to delete this user?")) {
+    if (!confirm("Are you sure you want to delete?")) {
       event.preventDefault();
       return false;
     }
@@ -220,7 +179,7 @@
   }
 
   function confirmDelete2(event) {
-    if (!confirm("Are you sure you want to delete this category?")) {
+    if (!confirm("Are you sure you want to delete?")) {
       event.preventDefault();
       return false;
     }
@@ -279,29 +238,25 @@
 
     var results = [];
 
-    // Ελέγχουμε κάθε γραμμή του πίνακα
     for (i = 0; i < tr.length; i++) {
       var row = tr[i];
       td = row.getElementsByTagName("td");
 
-      // Ελέγχουμε κάθε κελί της γραμμής για την αναζήτηση
       for (var j = 0; j < td.length; j++) {
         var cell = td[j];
         if (cell) {
           txtValue = cell.textContent || cell.innerText;
           if (txtValue.toUpperCase().indexOf(filter) > -1) {
             results.push(row.outerHTML);
-            break; // Βγαίνουμε από τον εσωτερικό βρόχο για να μην προστεθεί η ίδια γραμμή πολλές φορές
+            break;
           }
         }
       }
     }
 
-    // Εμφανίζουμε τα αποτελέσματα στο pop-up παράθυρο
     var searchResults = document.getElementById("searchResults");
     searchResults.innerHTML = results.join("");
 
-    // Ανοίγουμε το pop-up παράθυρο
     $('#searchModal').modal('show');
   }
 </script>
@@ -313,6 +268,5 @@
     }
   }
 </script>
-
 </body>
 </html>

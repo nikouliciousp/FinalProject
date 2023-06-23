@@ -3,67 +3,14 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Admin Panel</title>
-
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet"
 		  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 		  integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
 		  crossorigin="anonymous">
-
-	<style>
-		.form-container {
-			border: 1px solid #ccc;
-			border-radius: 20px;
-			padding: 20px;
-			margin-top: 20px;
-			background-color: #fff;
-			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-		}
-		.bg-info.bg-gradient {
-			background-image: url('/img/back_in2.jpg');
-			background-size: cover;
-		}
-		.text-center {
-			text-align: center;
-		}
-		.mx-auto {
-			margin-left: auto;
-			margin-right: auto;
-		}
-		.table {
-			width: 100%;
-			border-collapse: collapse;
-		}
-		.table tr,
-		.table th,
-		.table td {
-			border: 1px solid #dcdde0;
-			padding: 8px;
-			margin: 0;
-			text-align: center;
-			background-color: #fff;
-		}
-		.table th {
-			background-color: #f2f2f2;
-			position: sticky;
-			top: 0;
-			z-index: 1;
-		}
-		.navbar-nav .logout-link {
-			border: 2px solid #093c72;
-			background-color: #093c72;
-			font-size: large;
-			font-weight: bold;
-			color: rgba(164, 96, 96, 0);
-			margin-top: 4px;
-			padding: 10px 15px;
-			border-radius: 5px;
-			cursor: pointer;
-		}
-		.scrollable-table {
-			max-height: 250px;
-			overflow-y: scroll;
-		}
-	</style>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="./css/style.css">
 </head>
 <body class="bg-info bg-gradient">
 <!-- create navigation bar (header) -->
@@ -88,10 +35,8 @@
 		</div>
 	</div>
 </nav>
-
 <br>
 <br>
-
 <div class="container">
 	<div class="form-container text-center">
 		<h1>Admin Panel</h1>
@@ -108,33 +53,33 @@
 			<div th:if="${param.deleteError}" class="alert alert-danger" id="errorMessage1">
 				Failed to delete user.
 			</div>
-			<div class="scrollable-table">
-				<table class="table">
-					<thead>
-					<tr>
-						<th>ID</th>
-						<th>First Name</th>
-						<th>Last Name</th>
-						<th>Email</th>
-						<th>Action</th>
-					</tr>
-					</thead>
-					<tbody>
-					<!-- Iterate over the list of users and display their information -->
-					<tr th:each="user : ${users}">
-						<td th:text="${user.id}" style="vertical-align: middle;"></td>
-						<td th:text="${user.firstName}" style="vertical-align: middle;"></td>
-						<td th:text="${user.lastName}" style="vertical-align: middle;"></td>
-						<td th:text="${user.email}" style="vertical-align: middle;"></td>
-						<td style="vertical-align: middle;">
-							<a class="btn btn-primary" th:href="@{/index_admin/edit_user_admin/{id}(id=${user.id})}" style="width: 100px;">Edit</a>
-							<th:block th:unless="${user.id == 1}">
-								<a class="btn btn-danger" th:href="@{/index_admin/delete_user_admin/{email}(email=${user.email})}" onclick="return confirmDelete1(event)" style="width: 100px;">Delete</a>
-							</th:block>
-						</td>
-					</tr>
-					</tbody>
-				</table>
+			<div class="scrollable-table table-responsive">
+					<table class="table">
+						<thead>
+						<tr>
+							<th>ID</th>
+							<th>First Name</th>
+							<th>Last Name</th>
+							<th>Email</th>
+							<th>Action</th>
+						</tr>
+						</thead>
+						<tbody>
+						<!-- Iterate over the list of users and display their information -->
+						<tr th:each="user : ${users}">
+							<td th:text="${user.id}" style="vertical-align: middle;"></td>
+							<td th:text="${user.firstName}" style="vertical-align: middle;"></td>
+							<td th:text="${user.lastName}" style="vertical-align: middle;"></td>
+							<td th:text="${user.email}" style="vertical-align: middle;"></td>
+							<td style="vertical-align: middle;">
+								<a class="btn btn-primary" th:href="@{/index_admin/edit_user_admin/{id}(id=${user.id})}" style="width: 100px;">Edit</a>
+								<th:block th:unless="${user.id == 1}">
+									<a class="btn btn-danger" th:href="@{/index_admin/delete_user_admin/{email}(email=${user.email})}" onclick="return confirmDelete1(event)" style="width: 100px;">Delete</a>
+								</th:block>
+							</td>
+						</tr>
+						</tbody>
+					</table>
 			</div>
 		</div>
 		<div class="form-container">
@@ -148,7 +93,7 @@
 			<div th:if="${param.deleteDError}" class="alert alert-danger" id="errorMessage2">
 				Failed to delete drink category.
 			</div>
-			<div class="scrollable-table">
+			<div class="scrollable-table table-responsive">
 				<table class="table">
 					<thead>
 					<tr>
@@ -175,35 +120,8 @@
 		<div class="form-container text-center">
 			<a class="btn btn-primary" th:href="@{/index_admin/add_drink_category_admin}">Add New Drink Category</a>
 		</div>
-<!--		<div class="text-center">-->
-<!--			<img src="/img/l4.png">-->
-<!--		</div>-->
 	</div>
 </div>
-<script>
-	setTimeout(function set1() {
-		var successMessage1 = document.getElementById('successMessage1');
-		var errorMessage1 = document.getElementById('errorMessage1');
-		var successMessage2 = document.getElementById('successMessage2');
-		var errorMessage2 = document.getElementById('errorMessage2');
-
-		if (successMessage2) {
-			successMessage2.style.display = 'none';
-		}
-
-		if (errorMessage2) {
-			errorMessage2.style.display = 'none';
-		}
-
-		if (successMessage1) {
-			successMessage1.style.display = 'none';
-		}
-
-		if (errorMessage1) {
-			errorMessage1.style.display = 'none';
-		}
-	}, 2000);
-</script>
-
+<script src="./js/script.js"></script>
 </body>
 </html>

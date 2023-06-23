@@ -1,0 +1,53 @@
+.form-container {
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.bg-info.bg-gradient {
+    background-image: url('/img/back.jpg');
+    background-size: cover;
+}
+.text-center {
+    text-align: center;
+}
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.table tr,
+.table th,
+.table td {
+    border: 1px solid #dcdde0;
+    padding: 8px;
+    margin: 0;
+    text-align: center;
+    background-color: #fff;
+}
+.table th {
+    background-color: #f2f2f2;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+.navbar-nav .logout-link {
+    border: 2px solid #093c72;
+    background-color: #093c72;
+    font-size: large;
+    font-weight: bold;
+    color: rgba(164, 96, 96, 0);
+    margin-top: 4px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.scrollable-table {
+    max-height: 250px;
+    overflow-y: scroll;
+}

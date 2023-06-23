@@ -47,6 +47,7 @@ public class DrinkServiceImpl implements DrinkService {
                 .orElseThrow (() -> new IllegalArgumentException("Invalid drink Id: " + drinkDto.getId()));
 
         drink.setName(drinkDto.getName());
+        drink.setPrice(drinkDto.getPrice());
         return drinkRepository.save(drink);
     }
 

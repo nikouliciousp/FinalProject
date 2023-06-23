@@ -3,13 +3,14 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
   <meta charset="UTF-8">
-  <title>Add New Category</title>
-
+  <title>Add New Drink Category</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
         crossorigin="anonymous">
-
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <style>
     .form-container {
       border: 1px solid #ccc;
@@ -18,9 +19,12 @@
       margin-top: 20px;
       background-color: #fff;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
     }
     .bg-info.bg-gradient {
-      background-image: url('/img/back_in2.jpg');
+      background-image: url('/img/back.jpg');
       background-size: cover;
     }
     .text-center {
@@ -83,7 +87,6 @@
     </div>
   </div>
 </nav>
-
 <br>
 <br>
 <div class="container">
@@ -97,32 +100,20 @@
     <div th:if="${error}" id="errorMessage">
       <div class="alert alert-danger text-center">Category already exists!</div>
     </div>
-    <table class="table">
-      <thead>
-      <tr>
-        <th>Name</th>
-        <th>Action</th>
-      </tr>
-      </thead>
-      <tbody>
-      <!-- Display a row for adding a new category -->
-      <tr>
-        <form th:action="@{/index_admin/add_drink_category_admin}" method="post" th:object="${drinkCategory}">
-          <td><input id="name" class="form-control" th:field="*{name}" required autofocus="autofocus" /></td>
-          <td><button class="btn btn-primary" type="submit">Add Category</button></td>
-        </form>
-      </tr>
-      </tbody>
-    </table>
+    <form th:action="@{/index_admin/add_drink_category_admin}" th:object="${drinkCategory}" method="post">
+      <div class="form-group text-left">
+        <label for="name">Name</label>
+        <input id="name" class="form-control text-left" th:field="*{name}" required autofocus="autofocus">
+      </div>
+      <div class="form-group text-center">
+        <button type="submit" class="btn btn-primary">Add Category</button>
+      </div>
+    </form>
   </div>
   <div class="form-container text-center">
     <a class="btn btn-primary" th:href="@{/}">Back to Admin Panel</a>
   </div>
-<!--  <div class="text-center">-->
-<!--    <img src="/img/l6.png" class="img-responsive center-block" alt="Image">-->
-<!--  </div>-->
 </div>
-
 <script>
   setTimeout(function() {
     var successMessage = document.getElementById('successMessage');

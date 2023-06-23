@@ -1,121 +1,87 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-<meta charset="ISO-8859-1">
-<title>Registration</title>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-	crossorigin="anonymous">
-
-	<style>
-		.form-container {
-			border: 1px solid #ccc;
-			border-radius: 20px;
-			padding: 20px;
-			margin-top: 20px;
-			background-color: #fff;
-			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-		}
-		.bg-info.bg-gradient {
-			background-image: url('/img/back.jpg');
-			background-size: cover;
-			background-repeat: no-repeat;
-		}
-	</style>
+	<meta charset="ISO-8859-1">
+	<title>Registration</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet"
+		  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+		  integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+		  crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="./css/style.css">
 </head>
 <body class="bg-info bg-gradient">
-
-	<!-- create navigation bar ( header) -->
-	<nav class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed"
+<!-- create navigation bar (header) -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed"
 					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
 					aria-controls="navbar">
-					<span class="sr-only">Toggle navigation</span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="#" th:href="@{/}">Login Page</a>
-			</div>
+				<span class="sr-only">Toggle navigation</span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#" th:href="@{/}">Login Page</a>
 		</div>
-	</nav>
-
-<br>
-<br>
-	<!-- Create HTML registration form -->
-	<!-- Create HTML registration form -->
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6 col-md-offset-3 form-container">
-
-				<h1 class="text-center">Registration</h1>
-
-				<!-- success message -->
-				<div th:if="${param.success}" id="successMessage">
-					<div class="alert alert-info text-center">You've successfully registered!</div>
-				</div>
-
-				<!-- error message -->
-				<div th:if="${error}" id="errorMessage">
-					<div class="alert alert-danger text-center">User with the same email already exists.</div>
-				</div>
-
-				<form th:action="@{/registration}" method="post" th:object="${user}">
-					<div class="form-group">
-						<label class="control-label" for="firstName"> First Name </label>
-						<input id="firstName" class="form-control" th:field="*{firstName}"
-							   required autofocus="autofocus" />
-					</div>
-
-					<div class="form-group">
-						<label class="control-label" for="lastName"> Last Name </label> <input
-							id="lastName" class="form-control" th:field="*{lastName}"
-							required autofocus="autofocus" />
-					</div>
-
-					<div class="form-group">
-						<label class="control-label" for="email"> Email </label> <input
-							id="email" class="form-control" th:field="*{email}" required
-							autofocus="autofocus" />
-					</div>
-
-					<div class="form-group">
-						<label class="control-label" for="password"> Password </label> <input
-							id="password" class="form-control" type="password"
-							th:field="*{password}" required autofocus="autofocus" />
-					</div>
-
-					<div class="form-group text-center">
-						<button type="submit" class="btn btn-success">Register</button>
-
-					</div>
-				</form>
-				<div class="form-group text-center">
-        <span>Already registered? <a href="/" th:href="@{/login}">Login
-            here</a></span>
-				</div>
-			</div>
+		<div id="navbar" class="collapse navbar-collapse">
+			<ul class="nav navbar-nav">
+				<li sec:authorize="isAuthenticated()">
+					<a class="logout-link" th:href="@{/logout}">Logout</a>
+				</li>
+			</ul>
 		</div>
-<!--		<div class="text-center">-->
-<!--			<img src="/img/l2.jpg" class="img-responsive center-block" alt="Image">-->
-<!--		</div>-->
 	</div>
-	<script>
-
-		setTimeout(function() {
-			var successMessage = document.getElementById('successMessage');
-			var errorMessage = document.getElementById('errorMessage');
-
-			if (successMessage) {
-				successMessage.style.display = 'none';
-			}
-
-			if (errorMessage) {
-				errorMessage.style.display = 'none';
-			}
-		}, 2000);
-	</script>
+</nav>
+<br>
+<br>
+<!-- Create HTML registration form -->
+<div class="container">
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 form-container">
+			<h1 class="text-center">Registration</h1>
+			<!-- success message -->
+			<div th:if="${param.success}" id="successMessage">
+				<div class="alert alert-info text-center">You've successfully registered!</div>
+			</div>
+			<!-- error message -->
+			<div th:if="${error}" id="errorMessage">
+				<div class="alert alert-danger text-center">User with the same email already exists.</div>
+			</div>
+			<form th:action="@{/registration}" method="post" th:object="${user}">
+				<div class="form-group">
+					<label class="control-label" for="firstName"> First Name </label>
+					<input id="firstName" class="form-control" th:field="*{firstName}"
+						   required autofocus="autofocus" />
+				</div>
+				<div class="form-group">
+					<label class="control-label" for="lastName"> Last Name </label> <input
+						id="lastName" class="form-control" th:field="*{lastName}"
+						required autofocus="autofocus" />
+				</div>
+				<div class="form-group">
+					<label class="control-label" for="email"> Email </label> <input
+						id="email" class="form-control" th:field="*{email}" required
+						autofocus="autofocus" />
+				</div>
+				<div class="form-group">
+					<label class="control-label" for="password"> Password </label> <input
+						id="password" class="form-control" type="password"
+						th:field="*{password}" required autofocus="autofocus" />
+				</div>
+				<div class="form-group text-center">
+					<button type="submit" class="btn btn-success">Register</button>
+				</div>
+			</form>
+			<div class="form-group text-center">
+                <span>Already registered? <a href="/" th:href="@{/login}">Login
+                        here</a></span>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="./js/script.js"></script>
 </body>
 </html>

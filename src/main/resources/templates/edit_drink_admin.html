@@ -2,13 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
   <meta charset="UTF-8">
-  <title>Edit Drink Category</title>
-
+  <title>Edit Drink</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
         crossorigin="anonymous">
-
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <style>
     .form-container {
       border: 1px solid #ccc;
@@ -17,9 +18,12 @@
       margin-top: 20px;
       background-color: #fff;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
     }
     .bg-info.bg-gradient {
-      background-image: url('/img/back_in2.jpg');
+      background-image: url('/img/back.jpg');
       background-size: cover;
     }
     .text-center {
@@ -56,8 +60,11 @@
       border-radius: 5px;
       cursor: pointer;
     }
+    .scrollable-table {
+      max-height: 250px;
+      overflow-y: scroll;
+    }
   </style>
-
 </head>
 <body class="bg-info bg-gradient">
 <!-- create navigation bar (header) -->
@@ -82,7 +89,6 @@
     </div>
   </div>
 </nav>
-
 <br>
 <br>
 <div class="container">
@@ -100,25 +106,22 @@
       <div class="alert alert-danger text-center">Drink already exists!</div>
     </div>
     <form th:action="@{/index_admin/edit_drink_admin/{id}(id=${drink.id})}" th:object="${drink}" method="post">
-      <table class="table">
-        <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td><input id="id" class="form-control" th:value="*{id}" readonly /></td>
-          <td><input id="name" class="form-control" th:field="*{name}" required autofocus="autofocus" /></td>
-          <td class="d-flex flex-row">
-            <button type="submit" class="btn btn-primary">Update</button>
-            <a th:href="@{/index_admin/all_drinks_admin/{id}(id=${drink.getDrinkCategoryId()})}" class="btn btn-danger">Cancel</a>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+      <div class="form-group text-left">
+        <label for="id">ID</label>
+        <input id="id" class="form-control text-left" th:value="*{id}" readonly>
+      </div>
+      <div class="form-group text-left">
+        <label for="name">Name</label>
+        <input id="name" class="form-control text-left" th:field="*{name}" required autofocus="autofocus">
+      </div>
+      <div class="form-group text-left">
+        <label for="price">Price</label>
+        <input id="price" class="form-control text-left" th:field="*{price}" required autofocus="autofocus">
+      </div>
+      <div class="form-group text-center">
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a th:href="@{/}" class="btn btn-danger">Cancel</a>
+      </div>
     </form>
   </div>
   <div class="form-container text-center">
@@ -127,11 +130,7 @@
   <div class="form-container text-center">
     <a class="btn btn-primary" th:href="@{/}">Back to Admin Panel</a>
   </div>
-  <!--  <div class="text-center">-->
-  <!--    <img src="/img/l5.png" class="img-responsive center-block" alt="Image">-->
-  <!--  </div>-->
 </div>
-
 <script>
   setTimeout(function() {
     var successMessage = document.getElementById('successMessage');

@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>Edit User</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
         crossorigin="anonymous">
-
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <style>
     .form-container {
       border: 1px solid #ccc;
@@ -17,9 +18,12 @@
       margin-top: 20px;
       background-color: #fff;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
     }
     .bg-info.bg-gradient {
-      background-image: url('/img/back_in2.jpg');
+      background-image: url('/img/back.jpg');
       background-size: cover;
     }
     .text-center {
@@ -71,7 +75,7 @@
               class="icon-bar"></span> <span class="icon-bar"></span> <span
               class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#" th:href="@{/}">Admin Panel</a>
+      <a class="navbar-brand" href="#" th:href="@{/}">User Panel</a>
     </div>
     <div id="navbar" class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
@@ -97,42 +101,36 @@
       <div class="alert alert-danger text-center">User already exists!</div>
     </div>
     <form th:action="@{/index_user/edit_user/{id}(id=${user.id})}" th:object="${user}" method="post">
-      <table class="table">
-        <thead>
-        <tr>
-          <th>ID</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Email</th>
-          <th>Password</th>
-          <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td><input id="id" class="form-control" th:field="*{id}" readonly /></td>
-          <td><input id="firstName" class="form-control" th:field="*{firstName}" required autofocus="autofocus" /></td>
-          <td><input id="lastName" class="form-control"  th:field="*{lastName}" required autofocus="autofocus" /></td>
-          <td><input id="email" class="form-control"  th:field="*{email}" required autofocus="autofocus" /></td>
-          <td><input id="password" class="form-control" type="password" th:field="*{password}" required autofocus="autofocus" /></td>
-          <td class="d-flex flex-row">
-            <button type="submit" class="btn btn-primary">Update</button>
-            <a th:href="@{/}" class="btn btn-danger">Cancel</a>
-          </td>
-
-        </tr>
-        </tbody>
-      </table>
+      <div class="form-group text-left">
+        <label for="id">ID</label>
+        <input id="id" class="form-control text-left" th:value="*{id}" readonly>
+      </div>
+      <div class="form-group text-left">
+        <label for="firstName">First Name</label>
+        <input id="firstName" class="form-control text-left" th:field="*{firstName}" required autofocus="autofocus">
+      </div>
+      <div class="form-group text-left">
+        <label for="lastName">Last Name</label>
+        <input id="lastName" class="form-control text-left" th:field="*{lastName}" required autofocus="autofocus">
+      </div>
+      <div class="form-group text-left">
+        <label for="email">Email</label>
+        <input id="email" class="form-control text-left" th:field="*{email}" required autofocus="autofocus">
+      </div>
+      <div class="form-group text-left">
+        <label for="password">Password</label>
+        <input id="password" class="form-control text-left" type="password" th:field="*{password}" required autofocus="autofocus">
+      </div>
+      <div class="form-group text-center">
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a th:href="@{/}" class="btn btn-danger">Cancel</a>
+      </div>
     </form>
   </div>
   <div class="form-container text-center">
     <a class="btn btn-primary" th:href="@{/}">Back to User Panel</a>
   </div>
-<!--  <div class="text-center">-->
-<!--    <img src="/img/l5.png" class="img-responsive center-block" alt="Image">-->
-<!--  </div>-->
 </div>
-
 <script>
   setTimeout(function() {
     var successMessage = document.getElementById('successMessage');
